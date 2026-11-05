@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dalpe · La app del Edificio Dalpe</title>
+<meta name="description" content="Recorrido por la app del Edificio Dalpe: pagos, avisos, agua, seguridad, asambleas y cuentas claras, función por función.">
+<meta name="theme-color" content="#0b0b0d">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dalpe · La app del Edificio Dalpe">
+<meta property="og:description" content="Cobrar con orden, informar a todos y cuidar el edificio desde el teléfono. Conoce cada función.">
+<meta property="og:image" content="https://genuinohost.github.io/dalpe-presentacion/img/portada.jpg">
+<meta property="og:url" content="https://genuinohost.github.io/dalpe-presentacion/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fondo: #0b0b0d; --fondo-2: #121110; --tarjeta: #161412; --linea: #2c261b; --linea-2: #4a3d1c;
+  --texto: #efe8d8; --suave: #b8ae99; --tenue: #8f866f;
+  --oro: #d9b44a; --oro-claro: #f6e3a1; --oro-oscuro: #b8892c;
+  --degradado: linear-gradient(100deg, #f6e3a1 0%, #d4af37 50%, #b8892c 100%);
+  --serif: 'Playfair Display', Georgia, serif; --sans: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { background: var(--fondo); color: var(--texto); font-family: var(--sans); line-height: 1.55; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+/* Cabecera */
+.cab { position: sticky; top: 0; z-index: 20; background: rgba(11, 11, 13, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--linea); padding-top: env(safe-area-inset-top); }
+.cab-fila { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 16px; }
+.marca { display: flex; align-items: center; gap: 10px; text-decoration: none; flex: none; }
+.marca img { width: 30px; height: 30px; border-radius: 9px; }
+.marca b { font-family: var(--serif); font-size: 21px; background: var(--degradado); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.capitulos { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; mask-image: linear-gradient(90deg, #000 88%, transparent); }
+.capitulos::-webkit-scrollbar { display: none; }
+.capitulos a { flex: none; text-decoration: none; font-size: 13px; font-weight: 600; color: var(--suave); padding: 7px 13px; border-radius: 999px; border: 1px solid var(--linea); transition: background .25s, color .25s, border-color .25s; white-space: nowrap; }
+.capitulos a.activo { background: var(--degradado); color: #1a1408; border-color: transparent; }
+.progreso { height: 2px; background: var(--degradado); transform-origin: 0 50%; transform: scaleX(0); }
+
+/* Portada */
+.portada { position: relative; max-width: 1180px; margin: 0 auto; padding: 72px 16px 56px; display: grid; gap: 48px; align-items: center; }
+.portada::before { content: ''; position: absolute; inset: -120px -40vw auto; height: 720px; background: radial-gradient(ellipse at 70% 20%, rgba(212, 175, 55, .22), transparent 60%); pointer-events: none; z-index: -1; }
+.etiqueta { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--oro); font-weight: 700; }
+.portada h1 { font-family: var(--serif); font-size: clamp(44px, 9vw, 92px); line-height: 1.02; margin: 14px 0 18px; }
+.portada h1 span { background: var(--degradado); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.portada p.lema { font-size: clamp(18px, 2.4vw, 22px); color: var(--suave); max-width: 560px; }
+.cifras { display: flex; flex-wrap: wrap; gap: 28px; margin: 30px 0 34px; }
+.cifras div b { display: block; font-family: var(--serif); font-size: 36px; color: var(--oro); line-height: 1; }
+.cifras div span { font-size: 14px; color: var(--suave); }
+.boton { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; background: var(--degradado); color: #1a1408; font-weight: 700; text-decoration: none; box-shadow: 0 12px 34px rgba(212, 175, 55, .28); transition: transform .2s, box-shadow .2s; }
+.boton:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(212, 175, 55, .38); }
+.boton:active { transform: scale(.97); }
+.boton svg { width: 18px; height: 18px; }
+
+/* Teléfono */
+.telefono { position: relative; width: min(300px, 74vw); aspect-ratio: 390 / 844; margin: 0 auto; border-radius: 44px; padding: 10px; background: linear-gradient(160deg, #3a3020, #121110 40%, #2a2214); box-shadow: 0 0 0 1px var(--linea-2), 0 40px 90px rgba(0, 0, 0, .65), 0 0 120px rgba(212, 175, 55, .08); cursor: zoom-in; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+.telefono:hover { transform: translateY(-6px) rotate(-.6deg); }
+.telefono .pantalla { width: 100%; height: 100%; border-radius: 35px; overflow: hidden; background: #07080a; position: relative; }
+.telefono .pantalla img { width: 100%; height: auto; will-change: transform; }
+.telefono.recorre .pantalla img { animation: recorrer var(--duracion, 12s) ease-in-out 1s infinite alternate; }
+.telefono.recorre.quieto .pantalla img { animation-play-state: paused; }
+@keyframes recorrer { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(var(--desplazar, 0px)); } }
+.telefono .isla { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 84px; height: 22px; border-radius: 12px; background: #000; z-index: 2; }
+.pista { text-align: center; font-size: 13px; color: var(--tenue); margin-top: 14px; }
+
+/* Capítulos y funciones */
+main { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; }
+.capitulo { padding: 88px 0 12px; text-align: center; scroll-margin-top: 70px; }
+.capitulo .num { font-family: var(--serif); font-size: 15px; color: var(--oro); letter-spacing: 2px; }
+.capitulo h2 { font-family: var(--serif); font-size: clamp(34px, 6vw, 58px); line-height: 1.08; margin: 10px 0 12px; }
+.capitulo p { color: var(--suave); font-size: 18px; max-width: 620px; margin: 0 auto; }
+.funcion { display: grid; gap: 36px; align-items: center; padding: 56px 0; border-top: 1px solid var(--linea); scroll-margin-top: 70px; }
+.funcion:first-of-type { border-top: 0; }
+.funcion .contador { font-size: 13px; color: var(--tenue); font-weight: 600; letter-spacing: 1px; }
+.funcion h3 { font-family: var(--serif); font-size: clamp(30px, 4.6vw, 46px); line-height: 1.1; margin: 8px 0 14px; }
+.funcion .texto { font-size: 18px; color: var(--suave); max-width: 520px; }
+.virtudes { list-style: none; margin: 24px 0 26px; display: grid; gap: 12px; max-width: 520px; }
+.virtudes li { display: flex; gap: 12px; align-items: flex-start; font-size: 16.5px; }
+.virtudes li svg { flex: none; width: 24px; height: 24px; margin-top: 1px; color: var(--oro); }
+.siguiente { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--oro); font-size: 15px; padding: 8px 0; }
+.siguiente svg { width: 18px; height: 18px; transition: transform .2s; }
+.siguiente:hover svg { transform: translateY(3px); }
+.nota { margin-top: 18px; padding: 14px 16px; border: 1px solid var(--linea-2); border-radius: 16px; background: var(--tarjeta); font-size: 15px; color: var(--suave); max-width: 520px; }
+.nota b { color: var(--oro); }
+
+/* Aparecer al bajar */
+.aparece { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .8, .2, 1); }
+.aparece.visto { opacity: 1; transform: none; }
+
+/* Cierre */
+.cierre { text-align: center; padding: 96px 16px 40px; border-top: 1px solid var(--linea); }
+.cierre h2 { font-family: var(--serif); font-size: clamp(34px, 6vw, 56px); line-height: 1.1; margin: 10px auto 16px; max-width: 760px; }
+.cierre p { color: var(--suave); font-size: 18px; max-width: 620px; margin: 0 auto; }
+.pasos { display: grid; gap: 14px; max-width: 980px; margin: 40px auto 48px; text-align: left; }
+.pasos div { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 22px; padding: 22px; }
+.pasos b { font-family: var(--serif); font-size: 30px; color: var(--oro); display: block; line-height: 1; margin-bottom: 8px; }
+.pasos h4 { font-size: 17px; margin-bottom: 4px; }
+.pasos span { color: var(--suave); font-size: 15px; }
+.firma { color: var(--tenue); font-size: 14px; padding: 28px 16px calc(28px + env(safe-area-inset-bottom)); text-align: center; }
+
+/* Vista ampliada */
+.lupa { position: fixed; inset: 0; z-index: 50; background: rgba(5, 5, 6, .92); display: none; overflow-y: auto; padding: 24px 16px 60px; }
+.lupa.abierta { display: block; animation: aparecer .25s ease; }
+.lupa img { width: min(420px, 100%); margin: 0 auto; border-radius: 26px; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
+.lupa button { position: fixed; top: calc(14px + env(safe-area-inset-top)); right: 14px; width: 44px; height: 44px; border-radius: 50%; background: var(--tarjeta); border: 1px solid var(--linea-2); display: grid; place-items: center; }
+.lupa button svg { width: 22px; height: 22px; }
+@keyframes aparecer { from { opacity: 0; } }
+
+@media (min-width: 900px) {
+  .portada { grid-template-columns: 1.15fr .85fr; padding: 96px 16px 72px; }
+  .funcion { grid-template-columns: 1fr 1fr; gap: 64px; padding: 80px 0; }
+  .funcion:nth-of-type(even) .lado-texto { order: 2; }
+  .pasos { grid-template-columns: repeat(4, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .aparece { opacity: 1; transform: none; transition: none; }
+  .telefono.recorre .pantalla img { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="cab">
+  <div class="cab-fila">
+    <a class="marca" href="#inicio" aria-label="Dalpe, volver al principio"><img src="img/icono.png" alt=""><b>Dalpe</b></a>
+    <nav class="capitulos" id="capitulos" aria-label="Capítulos"></nav>
+  </div>
+  <div class="progreso" id="progreso"></div>
+</header>
+
+<section class="portada" id="inicio">
+  <div>
+    <p class="etiqueta">Junta de Condominio · Edificio Dalpe</p>
+    <h1>La app de nuestro <span>edificio</span></h1>
+    <p class="lema">Cobrar con orden, informar a todos y cuidar el Dalpe desde el teléfono. Este es el recorrido completo, función por función.</p>
+    <div class="cifras" id="cifras"></div>
+    <a class="boton" href="#c1">Empezar el recorrido
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+  </div>
+  <div>
+    <div class="telefono recorre aparece" data-img="img/21-inicio-completo.webp">
+      <div class="isla"></div>
+      <div class="pantalla"><img src="img/21-inicio-completo.webp" alt="Pantalla de inicio de la app Dalpe"></div>
+    </div>
+    <p class="pista">Toca cualquier pantalla para verla completa</p>
+  </div>
+</section>
+
+<main id="recorrido"></main>
+
+<section class="cierre" id="final">
+  <p class="etiqueta">Cómo llega a cada vecino</p>
+  <h2>Se instala una vez y mejora sola</h2>
+  <p>En Android se instala desde un enlace; en iPhone se agrega a la pantalla de inicio. Cada mejora llega al teléfono sin reinstalar nada.</p>
+  <div class="pasos">
+    <div><b>1</b><h4>Aprobar</h4><span>La junta aprueba la prueba y define los cargos.</span></div>
+    <div><b>2</b><h4>Cargar datos</h4><span>Unidades, alícuotas y deudas oficiales.</span></div>
+    <div><b>3</b><h4>Instalar</h4><span>Enlace en el grupo y código QR en ascensores y cartelera.</span></div>
+    <div><b>4</b><h4>Acompañar</h4><span>Jornada en el salón para quien necesite ayuda.</span></div>
+  </div>
+  <a class="boton" href="#inicio">Volver al principio
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+</section>
+
+<p class="firma">Junta de Condominio · Edificio Dalpe · Chacao, Caracas<br>Las pantallas muestran datos de ejemplo.</p>
+
+<div class="lupa" id="lupa" role="dialog" aria-modal="true" aria-label="Pantalla completa">
+  <button id="cerrar-lupa" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <img id="lupa-img" alt="">
+</div>
+
+<script>
+const CAPITULOS = [
+  { id: 'c1', corto: 'Vecinos', titulo: 'Todo su apartamento en el teléfono', texto: 'Lo que cada copropietario ve al abrir la app: su cuota, sus pagos y su unidad.', funciones: [
+    { img: '01-inicio', titulo: 'Inicio', texto: 'Al abrir la app, lo importante del día en una sola pantalla.', virtudes: ['Cuota del mes en dólares y en bolívares a la tasa BCV', 'Nivel de los tanques, paquetes y próxima asamblea', 'Novedades de la junta, de la más nueva a la más vieja'] },
+    { img: '02-pagos', titulo: 'Pagos', texto: 'Pagar y reportar el pago sin enviar capturas por WhatsApp.', virtudes: ['Datos para pagar con un toque para copiar', 'El monto exacto en bolívares del día', 'Comprobante, historial y recibo en PDF'] },
+    { img: '22-mi-unidad', titulo: 'Mi unidad', texto: 'Los vehículos y las mascotas de cada apartamento, registrados.', virtudes: ['Placas para que la portería identifique a los residentes', 'Mascotas registradas por apartamento', 'Lo edita el propio vecino'] },
+    { img: '23-perfil', titulo: 'Perfil y comodidad', texto: 'Pensada también para los vecinos mayores.', virtudes: ['Letra grande y modo claro', 'Lectura en voz alta de avisos y guías', 'Notificaciones que cada quien activa'] },
+  ] },
+  { id: 'c2', corto: 'Informados', titulo: 'Todos informados', texto: 'Se publica una vez y llega a la app, al grupo de WhatsApp y al boletín de la mañana.', funciones: [
+    { img: '03-avisos', titulo: 'Avisos', texto: 'Comunicados claros que quedan guardados, no perdidos en el chat.', virtudes: ['Se sabe cuántos vecinos lo leyeron', 'Un toque y está en el grupo de WhatsApp', 'Urgentes, de mantenimiento o comunicados'] },
+    { img: '11-boletin', titulo: 'Boletín de cada mañana', texto: 'El resumen del día, listo para compartir a las 7:00.', virtudes: ['Tasa BCV, agua, avisos y mantenimiento', 'Texto e imagen profesionales', 'Recordatorio diario para quien lo comparte'] },
+    { img: '12-imagen-del-boletin', titulo: 'La imagen del boletín', texto: 'Una sola imagen que resume el día del edificio.', virtudes: ['Se entiende de un vistazo en el grupo', 'Siempre con el mismo estilo', 'Hecha con los datos reales del día'], ancha: true },
+    { img: '32-noticias', titulo: 'Noticias de la zona', texto: 'Lo que pasa en Chacao y con el agua, en un solo lugar.', virtudes: ['Hidrocapital, Alcaldía de Chacao, Corpoelec y Protección Civil', 'Cada vecino elige qué temas sigue', 'Las mejoras del edificio también salen aquí'] },
+    { img: '31-asistente', titulo: 'Pregúntale a Dalpe', texto: 'Respuestas al instante con los datos reales de cada vecino.', virtudes: ['«¿Cuánto debo?», «¿Cómo está el agua?»', 'Se puede preguntar escribiendo o con la voz', 'A la junta le dice qué hacer hoy'] },
+  ] },
+  { id: 'c3', corto: 'Agua', titulo: 'El agua, medida y a la vista', texto: 'Cuando falta el agua, los datos hablan por sí solos.', funciones: [
+    { img: '08-tanques', titulo: 'Tanques', texto: 'El nivel de cada tanque, para todos, a cualquier hora.', virtudes: ['Reporte al grupo en el momento o a horas fijas', 'Historial de mediciones', 'Lista para sensores en los tanques'], nota: '<b>Próximo paso:</b> un sensor en cada tanque mide el nivel cada minuto, con precisión de 1 cm, y avisa a todos cuando baja o cuando llega el agua de la calle.' },
+  ] },
+  { id: 'c4', corto: 'Mejoras', titulo: 'Mejoras a la vista', texto: 'Cada reparación, de principio a fin, con su avance y su factura.', funciones: [
+    { img: '04-reportes', titulo: 'Reportes de averías', texto: 'El vecino reporta con foto y sigue el avance.', virtudes: ['Recibido, en proceso y resuelto', 'Historial de cada paso', 'Se comparte al grupo con un toque'] },
+    { img: '25-mantenimiento', titulo: 'Mantenimiento preventivo', texto: 'Lo que hay que revisar, antes de que se dañe.', virtudes: ['Ascensores, bombas, fumigación y tableros', 'Avisa lo vencido y lo próximo', 'El conserje marca lo hecho'] },
+  ] },
+  { id: 'c5', corto: 'Seguridad', titulo: 'Seguridad y convivencia', texto: 'Más seguro y más ordenado, desde la entrada hasta el salón de fiestas.', funciones: [
+    { img: '15-visitas', titulo: 'Visitas con pase', texto: 'El vecino autoriza a su visita con un código.', virtudes: ['Pase de un solo uso', 'Se comparte por WhatsApp', 'La portería sabe a quién espera cada apartamento'] },
+    { img: '16-porteria', titulo: 'Portería', texto: 'Todo lo de la entrada en un solo lugar.', virtudes: ['Valida los pases', 'Busca placas de vehículos', 'Registra paquetes y avisa al vecino'] },
+    { img: '17-reservas', titulo: 'Reservas', texto: 'El salón de fiestas sin choques de horario.', virtudes: ['Calendario a la vista', 'La app impide reservas cruzadas', 'Cada quien cancela la suya'] },
+    { img: '18-directorio', titulo: 'Directorio', texto: 'Los teléfonos que hacen falta, a mano.', virtudes: ['Emergencias, conserjería y vigilancia', 'Proveedores de confianza del edificio', 'Llamada con un toque'] },
+    { img: '19-sos', titulo: 'Botón SOS', texto: 'En una emergencia, un toque avisa a quien debe actuar.', virtudes: ['Incendio, emergencia médica, intruso o fuga', 'Llega a la junta y a la conserjería', 'Llamada directa al 911'] },
+  ] },
+  { id: 'c6', corto: 'Asambleas', titulo: 'Participación', texto: 'Asambleas con quórum claro y votos que cuentan.', funciones: [
+    { img: '07-asambleas', titulo: 'Asambleas', texto: 'Convocatoria, orden del día y asistencia.', virtudes: ['Cada vecino confirma si va', 'Quórum calculado por alícuota', 'El acta se arma desde la app'] },
+    { img: '20-encuestas', titulo: 'Votaciones y encuestas', texto: 'Se vota desde el teléfono, sin perder la cuenta.', virtudes: ['Un voto por apartamento', 'Resultados por alícuota', 'Encuestas rápidas para conocer la opinión'] },
+    { img: '14-documentos', titulo: 'Actas y documentos', texto: 'El archivo del condominio, ordenado y a la mano.', virtudes: ['Actas, reglamento y documentos', 'Siempre la versión vigente', 'Se descargan en PDF'] },
+  ] },
+  { id: 'c7', corto: 'Cuentas', titulo: 'Cuentas claras', texto: 'Cada gasto con su factura y un informe para todos.', funciones: [
+    { img: '13-cuentas', titulo: 'Cuentas del mes', texto: 'Ingresos, gastos y fondo de reserva a la vista.', virtudes: ['Cada gasto con su factura', 'Gastos por rubro', 'Resumen para el grupo, sin nombres'] },
+    { img: '24-informe', titulo: 'Informe de gestión', texto: 'Seis meses de un vistazo, listo para la asamblea.', virtudes: ['Lo cobrado frente a lo gastado', 'Solvencia y fondo de reserva', 'Se descarga en PDF'] },
+    { img: '30-salud', titulo: 'Salud del edificio', texto: 'Una nota de 0 a 100 que resume cómo va el Dalpe.', virtudes: ['Cobranza, fondo, mantenimiento y participación', 'Logros que se celebran', 'Consejos concretos para la junta'] },
+  ] },
+  { id: 'c8', corto: 'Junta', titulo: 'Para la junta', texto: 'Cobrar con orden y rendir cuentas en minutos.', funciones: [
+    { img: '29-panel-junta', titulo: 'Panel de la junta', texto: 'Todo el trabajo de la junta en un solo lugar.', virtudes: ['Cobranza, informe, tareas y mantenimiento', 'Vecinos, unidades y cuotas', 'Datos para pagar, siempre al día'] },
+    { img: '05-cobranza-junta', titulo: 'Cobranza', texto: 'Aprobar pagos y recordar con respeto.', virtudes: ['Cada pago con su comprobante', 'Recordatorios privados, nunca listas públicas', 'Planes de pago que el vecino acepta en la app'] },
+    { img: '28-datos-pago', titulo: 'Datos para pagar', texto: 'Las cuentas del edificio, siempre correctas.', virtudes: ['Pago móvil, Zelle y transferencia', 'Los edita la junta en un minuto', 'Cada vecino los copia con un toque'] },
+    { img: '27-tareas', titulo: 'Tareas por cargo', texto: 'Quién hace qué, y para cuándo.', virtudes: ['Presidente, tesorero, secretario y vocales', 'Fechas y responsables claros', 'Nada se queda en el olvido'] },
+    { img: '26-calendario', titulo: 'Calendario', texto: 'Asambleas, mantenimientos y reservas en una sola vista.', virtudes: ['Lo que viene, día por día', 'Vencimientos marcados', 'Para toda la comunidad'] },
+  ] },
+  { id: 'c9', corto: 'Escuela', titulo: 'Escuela y legado', texto: 'Lo que aprendemos queda para las próximas juntas.', funciones: [
+    { img: '09-aprende', titulo: 'Aprende', texto: 'La escuela del edificio, para vecinos y para cada cargo.', virtudes: ['Guías de pagos, convivencia, agua y emergencias', 'Guías para cada cargo de la junta', 'Se comparten al grupo con un toque'] },
+    { img: '10-guia-tesorero', titulo: 'Guía del tesorero', texto: 'Cada cargo sabe qué hacer desde el primer día.', virtudes: ['Funciones y rutina del mes', 'Paso a paso para revisar pagos', 'Queda para quien venga después'] },
+  ] },
+]
+
+const ICONO_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.6 2.6L16 9.7"/></svg>'
+const ICONO_BAJAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>'
+const total = CAPITULOS.reduce((n, c) => n + c.funciones.length, 0)
+const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+
+document.getElementById('cifras').innerHTML =
+  `<div><b>${total}</b><span>funciones</span></div><div><b>${CAPITULOS.length}</b><span>capítulos</span></div><div><b>0 $</b><span>para empezar</span></div>`
+document.getElementById('capitulos').innerHTML = CAPITULOS.map((c) => `<a href="#${c.id}" data-cap="${c.id}">${c.corto}</a>`).join('')
+
+let n = 0
+const ids = []
+document.getElementById('recorrido').innerHTML = CAPITULOS.map((c, ci) => {
+  const fs = c.funciones.map((f) => {
+    n++
+    const id = 'f' + n
+    ids.push(id)
+    return `<article class="funcion" id="${id}" data-cap="${c.id}">
+      <div class="lado-texto aparece">
+        <p class="contador">${String(n).padStart(2, '0')} / ${total} · ${esc(c.corto)}</p>
+        <h3>${esc(f.titulo)}</h3>
+        <p class="texto">${esc(f.texto)}</p>
+        <ul class="virtudes">${f.virtudes.map((v) => `<li>${ICONO_OK}<span>${esc(v)}</span></li>`).join('')}</ul>
+        ${f.nota ? `<p class="nota">${f.nota}</p>` : ''}
+        <button class="siguiente" data-ir="${n}">${n < total ? 'Siguiente' : 'Cómo llega a cada vecino'} ${ICONO_BAJAR}</button>
+      </div>
+      <div class="aparece">
+        ${f.ancha
+          ? `<img src="img/${f.img}.webp" alt="${esc(f.titulo)}" loading="lazy" data-img="img/${f.img}.webp" style="width:min(420px,100%);margin:0 auto;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.6);cursor:zoom-in">`
+          : `<div class="telefono" data-img="img/${f.img}.webp"><div class="isla"></div><div class="pantalla"><img src="img/${f.img}.webp" alt="Pantalla: ${esc(f.titulo)}" loading="lazy"></div></div>`}
+      </div>
+    </article>`
+  }).join('')
+  return `<section class="capitulo aparece" id="${c.id}"><p class="num">CAPÍTULO ${ci + 1}</p><h2>${esc(c.titulo)}</h2><p>${esc(c.texto)}</p></section>${fs}`
+}).join('')
+
+// Siguiente: a la próxima función (o al cierre)
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-ir]')
+  if (b) {
+    const k = Number(b.dataset.ir)
+    document.getElementById(k < total ? ids[k] : 'final').scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+})
+
+// Teclado: flechas para pasar de una función a otra, como en una presentación
+const objetivos = () => ['inicio', ...ids, 'final'].map((i) => document.getElementById(i))
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('lupa').classList.contains('abierta')) { if (e.key === 'Escape') cerrarLupa(); return }
+  const adelante = ['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)
+  const atras = ['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)
+  if (!adelante && !atras) return
+  e.preventDefault()
+  const lista = objetivos()
+  const y = window.scrollY + 90
+  let i = lista.findIndex((el) => el.offsetTop > y - 5)
+  if (i === -1) i = lista.length
+  const destino = adelante ? lista[Math.min(i, lista.length - 1)] : lista[Math.max(0, i - 2)]
+  destino.scrollIntoView({ behavior: 'smooth', block: 'start' })
+})
+
+// Aparecer al bajar, y el recorrido de las pantallas largas solo cuando se ven
+const ver = new IntersectionObserver((es) => es.forEach((x) => {
+  if (x.isIntersecting) x.target.classList.add('visto')
+}), { threshold: 0.15 })
+document.querySelectorAll('.aparece').forEach((el) => ver.observe(el))
+
+const ajustar = (tel) => {
+  const img = tel.querySelector('.pantalla img')
+  const alto = tel.querySelector('.pantalla').clientHeight
+  const sobra = img.clientHeight - alto
+  if (sobra > 20) {
+    tel.classList.add('recorre')
+    tel.style.setProperty('--desplazar', -sobra + 'px')
+    tel.style.setProperty('--duracion', Math.max(6, sobra / 45) + 's')
+  }
+}
+const mover = new IntersectionObserver((es) => es.forEach((x) => x.target.classList.toggle('quieto', !x.isIntersecting)), { threshold: 0.3 })
+document.querySelectorAll('.telefono').forEach((tel) => {
+  const img = tel.querySelector('.pantalla img')
+  if (img.complete) ajustar(tel)
+  else img.addEventListener('load', () => ajustar(tel), { once: true })
+  mover.observe(tel)
+})
+addEventListener('resize', () => document.querySelectorAll('.telefono').forEach(ajustar))
+
+// Capítulo activo y barra de avance
+const chips = [...document.querySelectorAll('.capitulos a')]
+const progreso = document.getElementById('progreso')
+let pendiente = false
+addEventListener('scroll', () => {
+  if (pendiente) return
+  pendiente = true
+  requestAnimationFrame(() => {
+    pendiente = false
+    const max = document.documentElement.scrollHeight - innerHeight
+    progreso.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`
+    let actual = null
+    for (const el of document.querySelectorAll('[data-cap]:not(a)')) if (el.offsetTop < scrollY + innerHeight * 0.4) actual = el.dataset.cap
+    chips.forEach((a) => {
+      const on = a.dataset.cap === actual
+      if (on && !a.classList.contains('activo')) a.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+      a.classList.toggle('activo', on)
+    })
+  })
+}, { passive: true })
+
+// Ver la pantalla completa
+const lupa = document.getElementById('lupa')
+const cerrarLupa = () => { lupa.classList.remove('abierta'); document.body.style.overflow = '' }
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-img]')
+  if (!t || e.target.closest('.siguiente')) return
+  document.getElementById('lupa-img').src = t.dataset.img
+  document.getElementById('lupa-img').alt = 'Pantalla completa'
+  lupa.scrollTop = 0
+  lupa.classList.add('abierta')
+  document.body.style.overflow = 'hidden'
+})
+document.getElementById('cerrar-lupa').addEventListener('click', cerrarLupa)
+lupa.addEventListener('click', (e) => { if (e.target === lupa) cerrarLupa() })
+</script>
+</body>
+</html>
